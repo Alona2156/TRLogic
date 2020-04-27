@@ -1,6 +1,6 @@
 <template>
   <div class="outer-wrapper">
-    <taskUi :task="task" />
+    <taskUi :task="task" checkboxType="checkbox-unselected"/>
   </div>
 </template>
 

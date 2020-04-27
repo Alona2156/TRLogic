@@ -1,3 +1,18 @@
+$pink: #ff467b;
+$grey: hsl(0, 0%, 90%);
+$green: hsl(120, 58%, 58%);
+
+$z-index-alert: 50;
+$z-index-modal-form: 40;
+$z-index-shade: 30;
+$z-index-header: 25;
+$z-index-aside: 20;
+$z-index-over-else: 15;
+$z-index-else: 10;
+
+$button-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+$card-shadow: 1px 1px 5px hsl(0, 0%, 75%);
+
 @mixin flex($fxd, $jc, $ai) {
   display: flex;
   flex-direction: $fxd;
