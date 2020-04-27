@@ -4,7 +4,10 @@
       <span @click="closeModal">&#10006;</span>
     </div>
     <div class="modal-body">
-      <section class="editor"></section>
+      <section class="editor">
+        <inputUi text="Title"/>
+        <textareaUi text="Task"/>
+      </section>
       <section class="confirm">
         <div class="save-button" @click="saveTask">save</div>
       </section>
@@ -13,6 +16,9 @@
 </template>
 
 <script>
+import inputUi from "@/components/ui/input-ui.vue";
+import textareaUi from "@/components/ui/textarea-ui.vue";
+
 export default {
   props: ["state"],
   data() {
@@ -20,6 +26,10 @@ export default {
       transitionClass: "",
       modalIsOpen: false
     };
+  },
+  components: {
+    inputUi,
+    textareaUi
   },
   methods: {
     openModal() {
@@ -101,6 +111,7 @@ section.editor {
   margin: auto;
   flex-grow: 1;
   > * {
+    margin-bottom: 10px;
     flex: 0 0 auto;
   }
 }
