@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view :key="$route.path" />
-    <alert :state="showAlert" @closeAlert="hideDeleteAlert" />
+    <alert :state="showAlert" :url="url" @closeAlert="hideDeleteAlert" />
     <div class="shade" :class="shadeClass"></div>
   </div>
 </template>
@@ -15,22 +15,25 @@ export default {
   data() {
     return {
       showAlert: false,
-      shadeClass: "hide"
+      shadeClass: "hide",
+      url: ""
     };
   },
   components: {
     alert
   },
   created() {
-    eventBus.$on("toggleAlert", data => {
-      this.showAlert = data;
-      this.shadeClass = data ? "show" : "hide";
+    eventBus.$on("toggleAlert", url => {
+      this.showAlert = true;
+      this.shadeClass = "show";
+      this.url = url;
     });
   },
   methods: {
     hideDeleteAlert() {
       this.showAlert = false;
       this.shadeClass = "hide";
+      this.url = "";
     }
   }
 };

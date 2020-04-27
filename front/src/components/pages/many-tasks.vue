@@ -13,7 +13,8 @@
         </div>
       </template>
     </taskUi>
-    <addTaskButton />
+    <addTaskButton @click.native="openNewTask"/>
+    <newTaskModal :state="newTaskModal" @modalClosed="closeNewTask"/>
   </div>
 </template>
 
@@ -21,10 +22,12 @@
 import { eventBus } from "@/main.js";
 import taskUi from "@/components/ui/task-ui.vue";
 import addTaskButton from '@/components/ui/add-task-button.vue';
+import newTaskModal from "@/components/ui/new-task-modal.vue";
 
 export default {
   data() {
     return {
+      newTaskModal: false,
       tasks: [
         {
           title: "task 1",
@@ -55,16 +58,21 @@ export default {
   },
   components: {
     taskUi,
-    addTaskButton
+    addTaskButton,
+    newTaskModal
   },
   methods: {
     editTask(url) {
       this.$router.push(url)
     },
     showDeleteAlert(url) {
-      eventBus.$emit("toggleAlert", true);
-      this.showAlert = true;
-      this.shadeClass = "show";
+      eventBus.$emit("toggleAlert", url);
+    },
+    openNewTask() {
+      this.newTaskModal = true;
+    },
+    closeNewTask() {
+      this.newTaskModal = false;
     }
   }
 };

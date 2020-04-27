@@ -6,18 +6,21 @@
     </div>
     <p class="message">Do you really want to delete task?</p>
     <div class="footer">
-      <div class="footer-button">yes</div>
-      <div class="footer-button">no</div>
+      <div class="footer-button" @click="deleteTask">yes</div>
+      <div class="footer-button" @click="closeAlert">no</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["state"],
+  props: ["state", "url"],
   methods: {
     closeAlert() {
       this.$emit("closeAlert");
+    },
+    deleteTask() {
+      // send delete request
     }
   }
 };
