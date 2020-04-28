@@ -62,7 +62,13 @@ export default {
         title: this.taskTitle,
         list: this.tasks.map(task => task.text)
       };
-      // send save request
+      this.$store.dispatch("saveTask", {task: newTask})
+        .then(() => {
+          this.closeModal();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     },
     addTask() {
       this.lastIndex += 1;
