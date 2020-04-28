@@ -28,6 +28,10 @@ export default {
       this.shadeClass = "show";
       this.url = url;
     });
+    this.$store.dispatch("getTasks")
+      .catch((error) => {
+        console.log(error);
+      })
   },
   methods: {
     hideDeleteAlert() {

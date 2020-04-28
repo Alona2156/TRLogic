@@ -28,33 +28,12 @@ export default {
   data() {
     return {
       newTaskModal: false,
-      tasks: [
-        {
-          title: "task 1",
-          url: "task-1",
-          list: [
-            { title: "do 1", done: false },
-            { title: "do 2", done: false }
-          ]
-        },
-        {
-          title: "task 2",
-          url: "task-2",
-          list: [
-            { title: "do 1", done: false },
-            { title: "do 2", done: false }
-          ]
-        },
-        {
-          title: "task 3",
-          url: "task-3",
-          list: [
-            { title: "do one", done: false },
-            { title: "do two", done: true }
-          ]
-        }
-      ]
     };
+  },
+  computed: {
+    tasks() {
+      return this.$store.state.tasks;
+    }
   },
   components: {
     taskUi,
