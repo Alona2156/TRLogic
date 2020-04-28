@@ -2,14 +2,24 @@
   <div class="input-wrapper">
     <label class="input-label">
       <div class="label-text">{{ text }}</div>
-      <input type="text" />
+      <input type="text" v-model="inputText" @input="updateInputText(inputText)"/>
     </label>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["text"]
+  props: ["text"],
+  data() {
+    return {
+      inputText: ""
+    }
+  },
+  methods: {
+    updateInputText(inputText) {
+      this.$emit("updateInputText", inputText);
+    }
+  }
 };
 </script>
 

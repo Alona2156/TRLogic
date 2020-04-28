@@ -1,15 +1,26 @@
 <template>
   <div class="textarea-wrapper">
+    <slot name="removeTask" />
     <label class="textarea-label">
       <div class="label-text">{{ text }}</div>
-      <textarea type="text" rows="3"/>
+      <textarea type="text" rows="3" v-model="textAreaInput" @input="updateTextAreaInput"/>
     </label>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["text"]
+  props: ["text"],
+  data() {
+    return {
+      textAreaInput: ""
+    }
+  },
+  methods: {
+    updateTextAreaInput() {
+      this.$emit("updateTextAreaInput", this.textAreaInput);
+    }
+  }
 };
 </script>
 
@@ -20,12 +31,13 @@ export default {
   width: 600px;
   @include flex(row, flex-start, flex-end);
   margin-bottom: 20px;
+  position: relative;
   &:hover {
     .textarea-label .label-text {
-      color: rgba(0,0,0,.75);
+      color: rgba(0, 0, 0, 0.75);
     }
     .textarea-label textarea {
-      border-bottom: 2px solid rgba(0,0,0,.3);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.3);
     }
   }
 }
@@ -63,6 +75,19 @@ export default {
     padding: 0;
     transition: border 0.1s ease;
     width: 100%;
+  }
+}
+
+.textarea-wrapper {
+  > .remove-task {
+    @extend %button-style;
+    background-color: red;
+    font-size: 19px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: -10%;
+    top: calc(50% - 7px);
   }
 }
 </style>

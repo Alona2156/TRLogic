@@ -19,3 +19,15 @@ $card-shadow: 1px 1px 5px hsl(0, 0%, 75%);
   justify-content: $jc;
   align-items: $ai;
 }
+
+%button-style {
+  @include flex(row, center, center);
+  height: 30px;
+  width: 30px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
