@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import taskUi from "@/components/ui/task-ui.vue";
+import taskUi from "@/components/ui/editable-task.vue";
 
 export default {
   computed: {

@@ -31,3 +31,22 @@ $card-shadow: 1px 1px 5px hsl(0, 0%, 75%);
   border-radius: 4px;
   cursor: pointer;
 }
+
+%add-task-button {
+  background-color: $green;
+  color: white;
+  @include flex(row, center, center);
+  font-size: 22px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+%remove-task-button {
+  @extend %add-task-button;
+  background-color: red;
+  position: absolute;
+  left: -38px;
+  top: calc(50% - 15px);
+}

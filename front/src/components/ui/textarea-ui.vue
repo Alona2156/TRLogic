@@ -5,6 +5,7 @@
       <div class="label-text">{{ text }}</div>
       <textarea type="text" rows="3" v-model="textAreaInput" @input="updateTextAreaInput" />
     </label>
+    <slot name="saveChange" />
   </div>
 </template>
 
@@ -34,6 +35,7 @@ export default {
 
 .textarea-wrapper {
   width: 600px;
+  max-width: 100%;
   @include flex(row, flex-start, flex-end);
   margin-bottom: 20px;
   position: relative;
@@ -84,15 +86,13 @@ export default {
 }
 
 .textarea-wrapper {
-  > .remove-task {
-    @extend %button-style;
-    background-color: red;
-    font-size: 19px;
-    width: 30px;
-    height: 30px;
+  > .remove {
+    font-size: 31px;
+    cursor: pointer;
     position: absolute;
-    left: -10%;
-    top: calc(50% - 7px);
+    left: -38px;
+    top: calc(50% - 15px);
+    color: red;
   }
 }
 </style>

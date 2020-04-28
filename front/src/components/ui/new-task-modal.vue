@@ -15,7 +15,7 @@
           :reset="reset"
         >
           <template v-slot:removeTask>
-            <div class="remove-task" @click="removeTask(task.index)">&#x2212;</div>
+            <span class="material-icons remove" @click="removeTask(task.index)">remove_circle_outline</span>
           </template>
         </textareaUi>
         <div class="add-task-wrapper">
@@ -174,9 +174,9 @@ section.editor {
   width: 100%;
   @include flex(row, flex-end, flex-end);
   .save-button {
-    background-color: #2196f3;
+    background-color: $green;
     font-size: 14px;
-    padding: 4px 7px;
+    padding: 15px 35px;
     width: 50px;
     @extend %button-style;
   }
@@ -189,10 +189,6 @@ section.editor {
 }
 
 .editor .add-task {
-  flex: 0 0 auto;
-  background-color: $green;
-  @extend %button-style;
-  @include flex(row, center, center);
-  font-size: 20px;
+  @extend %add-task-button;
 }
 </style>

@@ -10,22 +10,22 @@ export default new Vuex.Store({
     currentTask: ""
   },
   mutations: {
-    updateTasks(state, data) {
+    getTasks(state, data) {
       state.tasks = data;
     },
-    updateOneTask(state, data) {
+    getOneTask(state, data) {
       state.currentTask = data;
     }
   },
   actions: {
     async getTasks({commit}) {
       const response = await axios.get(`${process.env.VUE_APP_URL}/api/tasks`);
-      commit("updateTasks", response.data.tasks);
+      commit("getTasks", response.data.tasks);
     },
 
     async getOneTask({commit}, data) {
       const response = await axios.get(`${process.env.VUE_APP_URL}/api/tasks${data}`);
-      commit("updateOneTask", response.data.task);
+      commit("getOneTask", response.data.task);
     },
 
     async saveTask({commit}, data) {
@@ -34,6 +34,11 @@ export default new Vuex.Store({
 
     async deleteTask({commit}, data) {
       await axios.delete(`${process.env.VUE_APP_URL}/api/tasks/${data}`);
+    },
+
+    async updateTask({commit}, data) {
+      const response = await axios.put(`${process.env.VUE_APP_URL}/api/tasks`, data);
+      commit("getOneTask", response.data.task);
     }
 
   }
