@@ -6,12 +6,13 @@
     </div>
     <div class="modal-body">
       <section class="editor">
-        <inputUi text="Title" @updateInputText="taskTitle = $event" />
+        <inputUi text="Title" @updateInputText="taskTitle = $event" :reset="reset" />
         <textareaUi
           v-for="task in tasks"
           :key="task.index"
           text="Task"
           @updateTextAreaInput="updateTextAreaInput($event, task.index)"
+          :reset="reset"
         >
           <template v-slot:removeTask>
             <div class="remove-task" @click="removeTask(task.index)">&#x2212;</div>
@@ -38,6 +39,7 @@ export default {
     return {
       transitionClass: "",
       modalIsOpen: false,
+      reset: false,
       taskTitle: "",
       lastIndex: 0,
       tasks: [{ index: 0, text: "" }]
@@ -55,20 +57,30 @@ export default {
     closeModal() {
       this.modalIsOpen = false;
       this.transitionClass = "";
+      this.resetModal();
       this.$emit("modalClosed");
+    },
+    resetModal() {
+      let reset = this.reset;
+      Object.assign(this.$data, this.$options.data());
+      this.reset = !reset;
     },
     saveTask() {
       const newTask = {
         title: this.taskTitle,
         list: this.tasks.map(task => task.text)
       };
-      this.$store.dispatch("saveTask", {task: newTask})
+      this.$store
+        .dispatch("saveTask", { task: newTask })
         .then(() => {
           this.closeModal();
+          this.$store.dispatch("getTasks").catch(error => {
+            console.log(error);
+          });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
-        })
+        });
     },
     addTask() {
       this.lastIndex += 1;

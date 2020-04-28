@@ -2,22 +2,27 @@
   <div class="input-wrapper">
     <label class="input-label">
       <div class="label-text">{{ text }}</div>
-      <input type="text" v-model="inputText" @input="updateInputText(inputText)"/>
+      <input type="text" v-model="inputText" @input="updateInputText(inputText)" />
     </label>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["text"],
+  props: ["text", "reset"],
   data() {
     return {
       inputText: ""
-    }
+    };
   },
   methods: {
     updateInputText(inputText) {
       this.$emit("updateInputText", inputText);
+    }
+  },
+  watch: {
+    reset(val) {
+      this.inputText = "";
     }
   }
 };
@@ -32,10 +37,10 @@ export default {
   @include flex(row, flex-start, flex-end);
   &:hover {
     .input-label .label-text {
-      color: rgba(0,0,0,.75);
+      color: rgba(0, 0, 0, 0.75);
     }
     .input-label input {
-      border-bottom: 2px solid rgba(0,0,0,.3);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.3);
     }
   }
 }

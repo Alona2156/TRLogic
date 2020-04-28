@@ -1,6 +1,6 @@
 <template>
   <div class="outer-wrapper">
-    <taskUi :task="task" checkboxType="checkbox-unselected"/>
+    <taskUi :task="task" checkboxType="checkbox-unselected" />
   </div>
 </template>
 
@@ -8,20 +8,18 @@
 import taskUi from "@/components/ui/task-ui.vue";
 
 export default {
-  data() {
-    return {
-      task: {
-        title: "task 1",
-        list: [
-          { title: "do 1", done: false },
-          { title: "do 2", done: false },
-          { title: "do 3", done: true }
-        ]
-      }
-    };
+  computed: {
+    task() {
+      return this.$store.state.currentTask;
+    }
   },
   components: {
     taskUi
+  },
+  created() {
+    this.$store.dispatch("getOneTask", window.location.pathname).catch(error => {
+      console.log(error);
+    });
   }
 };
 </script>

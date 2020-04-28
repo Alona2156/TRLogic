@@ -3,22 +3,27 @@
     <slot name="removeTask" />
     <label class="textarea-label">
       <div class="label-text">{{ text }}</div>
-      <textarea type="text" rows="3" v-model="textAreaInput" @input="updateTextAreaInput"/>
+      <textarea type="text" rows="3" v-model="textAreaInput" @input="updateTextAreaInput" />
     </label>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["text"],
+  props: ["text", "reset"],
   data() {
     return {
       textAreaInput: ""
-    }
+    };
   },
   methods: {
     updateTextAreaInput() {
       this.$emit("updateTextAreaInput", this.textAreaInput);
+    }
+  },
+  watch: {
+    reset(val) {
+      this.textAreaInput = "";
     }
   }
 };

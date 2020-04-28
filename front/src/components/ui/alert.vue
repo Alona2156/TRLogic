@@ -1,7 +1,7 @@
 <template>
   <div class="alert-msg" v-if="state">
     <div class="header">
-      <span class="header-text"> Confirm </span>
+      <span class="header-text">Confirm</span>
       <span class="close" @click="closeAlert">&#10006;</span>
     </div>
     <p class="message">Do you really want to delete task?</p>
@@ -20,7 +20,17 @@ export default {
       this.$emit("closeAlert");
     },
     deleteTask() {
-      // send delete request
+      this.$store
+        .dispatch("deleteTask", this.url)
+        .then(() => {
+          this.closeAlert();
+          this.$store.dispatch("getTasks").catch(error => {
+            console.log(error);
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
