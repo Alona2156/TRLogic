@@ -8,6 +8,7 @@
       <li class="list-item" v-for="(item, index) in task.list" :key="index">
         <span class="material-icons edit" @click="openForEdit(index)">create</span>
         <input
+          class="record-input"
           :value="item.title"
           :disabled="index !== itemIndexForEdit"
           @input="item = $event.target.value"
@@ -107,7 +108,7 @@ export default {
     },
     showCancelAlert() {
       eventBus.$emit("toggleAlert", {
-        text: "Do you really want to delete edited data?",
+        text: "Do you really want to discard edited data?",
         type: "cancelEdit"
       });
     },
@@ -191,11 +192,13 @@ export default {
 
 .editable-task-wrapper {
   width: 450px;
+  max-width: 90%;
+  overflow: auto;
   border-radius: 8px;
   box-shadow: $card-shadow;
   padding: 20px 45px 20px 30px;
-  margin: auto;
   min-height: 160px;
+  margin: 50px auto 10px;
   > .list {
     margin: 0;
     padding: 0;
@@ -212,13 +215,15 @@ export default {
     p {
       margin: 0;
     }
-    > input {
+    > .record-input {
       outline: none;
       border: none;
       -webkit-appearance: none;
       border-bottom: 1px solid grey;
       flex: 1 0 auto;
       max-width: 80%;
+      background-color: transparent;
+      color: black;
       &:disabled {
         border-bottom: 1px solid transparent;
       }
@@ -288,6 +293,12 @@ export default {
     border-radius: 4px;
     padding: 4px 10px;
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .editable-task-wrapper .list-item > .record-input {
+    max-width: 70%;
   }
 }
 </style>

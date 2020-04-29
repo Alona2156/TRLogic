@@ -84,6 +84,17 @@ export default {
 
 <style lang="scss">
 @import "@/style/mixins.scss";
+.outer-wrapper {
+  @include flex(row, flex-start, flex-start);
+  align-content: flex-start;
+  flex-wrap: wrap;
+  max-width: 1600px;
+  margin: -5px auto;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
 
 .buttons-wrapper {
   @include flex(row, space-between, center);
@@ -116,5 +127,11 @@ export default {
 
 .shade.hide {
   display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .outer-wrapper {
+    justify-content: center;
+  }
 }
 </style>

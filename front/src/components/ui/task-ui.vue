@@ -26,7 +26,8 @@ export default {
 @import "@/style/mixins.scss";
 
 .task-wrapper {
-  width: calc(100% / 5);
+  width: calc(100% / 5 - 10px);
+  max-width: 300px;
   border-radius: 8px;
   box-shadow: $card-shadow;
   padding: 20px;
@@ -53,4 +54,29 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 1050px) {
+  .task-wrapper {
+      width: calc(100% / 4 - 10px);
+  }
+}
+
+@media screen and (max-width:850px) {
+  .task-wrapper {
+      width: calc(100% / 3 - 10px);
+  }
+}
+
+@media screen and (max-width:660px) {
+  .task-wrapper {
+      width: calc(100% / 2 - 10px);
+  }
+}
+
+@media screen and (max-width:480px) {
+  .task-wrapper {
+      width: calc(100% - 10px);
+  }
+}
+
 </style>

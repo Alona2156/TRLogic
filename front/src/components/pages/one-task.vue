@@ -1,5 +1,5 @@
 <template>
-  <div class="outer-wrapper">
+  <div class="outer-wrapper-one">
     <div class="home-button" @click="goHome">Go home</div>
     <taskUi :task="task" />
   </div>
@@ -36,10 +36,19 @@ export default {
 @import "@/style/mixins.scss";
 
 .home-button {
+  margin: 20px;
   border: 2px solid $green;
   border-radius: 4px;
   padding: 4px 10px;
   font-weight: 600;
   cursor: pointer;
 }
+
+.outer-wrapper-one {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  @include flex(column, flex-start, flex-start);
+}
+
 </style>

@@ -151,7 +151,7 @@ export default {
   background-color: white;
   width: 100%;
   flex-grow: 1;
-  padding: 16px 24px;
+  padding: 25px;
   @include flex(column, flex-start, flex-start);
   flex-wrap: nowrap;
   overflow-y: auto;
@@ -187,6 +187,7 @@ section.editor {
 
 .editor .add-task-wrapper {
   width: 600px;
+  max-width: 100%;
   margin-top: 15px;
   @include flex(row, flex-end, center);
 }

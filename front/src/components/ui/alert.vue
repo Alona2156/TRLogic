@@ -45,7 +45,7 @@ export default {
   transform: translateX(-50%);
   top: 70px;
   width: 400px;
-  max-width: 100%;
+  max-width: 87%;
   z-index: $z-index-alert;
   background-color: white;
   > .header {

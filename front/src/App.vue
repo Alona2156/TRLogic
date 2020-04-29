@@ -74,12 +74,4 @@ html {
   flex-direction: row;
   z-index: $z-index-else;
 }
-
-.outer-wrapper {
-  padding: 20px;
-  margin: -5px;
-  width: 100%;
-  height: 100%;
-  @include flex(row, flex-start, flex-start);
-}
 </style>

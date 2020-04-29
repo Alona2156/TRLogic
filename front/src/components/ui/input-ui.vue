@@ -35,6 +35,7 @@ export default {
   width: 300px;
   height: 50px;
   @include flex(row, flex-start, flex-end);
+  max-width: 100%;
   &:hover {
     .input-label .label-text {
       color: rgba(0, 0, 0, 0.75);
