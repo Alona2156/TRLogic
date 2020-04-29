@@ -16,7 +16,6 @@ module.exports = {
     "quotes": [2, "double", { "avoidEscape": true }],
     "comma-dangle": ["error", "never"],
     "no-param-reassign": 0,
-    "import/extensions": ["severity", "always"],
     "import/prefer-default-export": 0,
     "global-require": 0,
     "no-underscore-dangle": 0,

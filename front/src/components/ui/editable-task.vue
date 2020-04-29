@@ -15,6 +15,11 @@
           @click="saveEdit(index, item)"
           v-if="index === itemIndexForEdit"
         >check_circle_outline</span>
+        <span
+          class="material-icons removeTask"
+          v-if="index === itemIndexForEdit"
+          @click="removeTask(index)"
+        >remove_circle_outline</span>
       </li>
     </ul>
     <textareaUi
@@ -39,6 +44,8 @@
 </template>
 
 <script>
+import { eventBus } from "@/main.js";
+
 import checkboxUi from "@/components/ui/checkbox-ui.vue";
 import textareaUi from "@/components/ui/textarea-ui.vue";
 
@@ -73,6 +80,14 @@ export default {
     openForEdit(index) {
       this.itemIndexForEdit = index;
     },
+    removeTask(index) {
+      eventBus.$emit("toggleAlert", { url: "test", text: "Do you really want to delete task?" });
+      return;
+      const taskList = this.task.list.filter((item, itemIndex) => {
+        return itemIndex !== index;
+      });
+      this.save(taskList, this.closeEditInput);
+    },
     saveEdit(index, item) {
       const taskList = this.task.list.slice();
       taskList[index] = item;
@@ -106,11 +121,19 @@ export default {
 <style lang="scss">
 @import "@/style/mixins.scss";
 
+@mixin editButtonStyle($fz, $c, $l) {
+  position: absolute;
+  font-size: $fz;
+  cursor: pointer;
+  color: $c;
+  left: $l;
+}
+
 .editable-task-wrapper {
   width: 450px;
   border-radius: 8px;
   box-shadow: $card-shadow;
-  padding: 20px 30px;
+  padding: 20px 45px 20px 30px;
   margin: 5px;
   min-height: 160px;
   > .title {
@@ -146,18 +169,13 @@ export default {
       }
     }
     > .edit {
-      position: absolute;
-      left: -21px;
-      font-size: 18px;
-      color: $pink;
-      cursor: pointer;
+      @include editButtonStyle(18px, $pink, -21px);
     }
     > .saveEdit {
-      position: absolute;
-      font-size: 28px;
-      cursor: pointer;
-      color: $green;
-      left: calc(100% - 68px);
+      @include editButtonStyle(28px, $green, calc(100% - 68px));
+    }
+    > .removeTask {
+      @include editButtonStyle(28px, red, calc(100% + 10px));
     }
   }
 }

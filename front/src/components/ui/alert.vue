@@ -4,33 +4,27 @@
       <span class="header-text">Confirm</span>
       <span class="close" @click="closeAlert">&#10006;</span>
     </div>
-    <p class="message">Do you really want to delete task?</p>
+    <p class="message">{{text}}</p>
     <div class="footer">
-      <div class="footer-button" @click="deleteTask">yes</div>
+      <div class="footer-button" @click="executeCallback">yes</div>
       <div class="footer-button" @click="closeAlert">no</div>
     </div>
   </div>
 </template>
 
 <script>
+import { eventBus } from "@/main.js";
+
 export default {
-  props: ["state", "url"],
+  props: ["state", "data", "text", "alertType"],
   methods: {
     closeAlert() {
-      this.$emit("closeAlert");
+      eventBus.$emit("closeAlert");
     },
-    deleteTask() {
-      this.$store
-        .dispatch("deleteTask", this.url)
-        .then(() => {
-          this.closeAlert();
-          this.$store.dispatch("getTasks").catch(error => {
-            console.log(error);
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    executeCallback() {
+      if (this.alertType === "deleteTask") {
+        eventBus.$emit("deleteTask", this.data);
+      }
     }
   }
 };
