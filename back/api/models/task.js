@@ -4,8 +4,8 @@ const { Schema } = mongoose;
 const taskSchema = new Schema({
   title: String,
   url: String,
-  list: [String],
-  shortList: [String]
+  list: [{ title: String, done: Boolean }],
+  shortList: [{ title: String, done: Boolean }]
 });
 
 // eslint-disable-next-line func-names

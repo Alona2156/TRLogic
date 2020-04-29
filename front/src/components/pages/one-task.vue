@@ -1,6 +1,7 @@
 <template>
   <div class="outer-wrapper">
-    <taskUi :task="task" checkboxType="checkbox-unselected" />
+    <div class="home-button" @click="goHome">Go home</div>
+    <taskUi :task="task" />
   </div>
 </template>
 
@@ -16,13 +17,29 @@ export default {
   components: {
     taskUi
   },
+  methods: {
+    goHome() {
+      this.$router.push("/");
+    }
+  },
   created() {
-    this.$store.dispatch("getOneTask", window.location.pathname).catch(error => {
-      console.log(error);
-    });
+    this.$store
+      .dispatch("getOneTask", window.location.pathname)
+      .catch((error) => {
+        console.log(error);
+      });
   }
 };
 </script>
 
 <style lang="scss">
+@import "@/style/mixins.scss";
+
+.home-button {
+  border: 2px solid $green;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
 </style>

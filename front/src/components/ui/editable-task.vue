@@ -8,11 +8,14 @@
       <li class="list-item" v-for="(item, index) in task.list" :key="index">
         <span class="material-icons edit" @click="openForEdit(index)">create</span>
         <input
-          :value="item"
+          :value="item.title"
           :disabled="index !== itemIndexForEdit"
           @input="item = $event.target.value"
         />
-        <checkboxUi :class="checkboxType" />
+        <checkboxUi
+          :class="[item.done? 'checkbox-selected' : 'checkbox-unselected']"
+          @click.native="markDone(index)"
+        />
         <span
           class="material-icons saveEdit"
           @click="saveEdit(index, item)"
@@ -53,7 +56,7 @@ import checkboxUi from "@/components/ui/checkbox-ui.vue";
 import textareaUi from "@/components/ui/textarea-ui.vue";
 
 export default {
-  props: ["task", "checkboxType"],
+  props: ["task"],
   data() {
     return {
       taskInput: false,
@@ -92,14 +95,14 @@ export default {
       });
     },
     removeTask(index) {
-      const taskList = this.task.list.filter((item, itemIndex) => {
-        return itemIndex !== index;
-      });
+      const taskList = this.task.list.filter(
+        (item, itemIndex) => itemIndex !== index
+      );
       this.save(taskList, this.closeEditInput);
     },
     saveEdit(index, item) {
       const taskList = this.task.list.slice();
-      taskList[index] = item;
+      taskList[index].title = item;
       this.save(taskList, this.closeEditInput);
     },
     showCancelAlert() {
@@ -112,9 +115,14 @@ export default {
       Object.assign(this.$data, this.$options.data());
       eventBus.$emit("closeAlert");
     },
+    markDone(index) {
+      const taskList = this.task.list.slice();
+      taskList[index].done = !taskList[index].done;
+      this.save(taskList, this.closeEditInput);
+    },
     saveNewTask() {
       const list = this.task.list.slice();
-      list.push(this.newTaskText);
+      list.push({ title: this.newTaskText, done: false });
       this.save(list, this.closeTaskInput);
     },
     save(list, cb) {
@@ -126,7 +134,7 @@ export default {
         .then(() => {
           cb && cb();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -147,23 +155,23 @@ export default {
             .then(() => {
               this.$router.push("/");
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
             });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
   },
   created() {
-    eventBus.$on("removeTask", index => {
+    eventBus.$on("removeTask", (index) => {
       this.removeTask(index);
     });
-    eventBus.$on("cancelEdit", index => {
+    eventBus.$on("cancelEdit", (index) => {
       this.cancelEdit(index);
     });
-    eventBus.$on("deleteAllTask", url => {
+    eventBus.$on("deleteAllTask", (url) => {
       this.deleteAllTask(url);
     });
   }
@@ -188,11 +196,6 @@ export default {
   padding: 20px 45px 20px 30px;
   margin: auto;
   min-height: 160px;
-  > .title {
-    text-align: left;
-    margin: 0 0 15px;
-    font-weight: 600;
-  }
   > .list {
     margin: 0;
     padding: 0;
@@ -256,6 +259,12 @@ export default {
 .editable-task-wrapper .header {
   @include flex(row, space-between, center);
   position: relative;
+  margin-bottom: 10px;
+  > title {
+    text-align: left;
+    margin: 0 0 15px;
+    font-weight: 600;
+  }
   > .close {
     position: absolute;
     font-size: 30px;

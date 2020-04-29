@@ -4,7 +4,7 @@
     <p class="title">{{task.title}}</p>
     <ul class="list">
       <li class="list-item" v-for="(item, index) in task.list" :key="index">
-        <p>{{item}}</p>
+        <p>{{item.title}}</p>
         <checkboxUi :class="checkboxType" />
       </li>
     </ul>

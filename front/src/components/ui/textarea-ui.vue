@@ -23,7 +23,7 @@ export default {
     }
   },
   watch: {
-    reset(val) {
+    reset() {
       this.textAreaInput = "";
     }
   }

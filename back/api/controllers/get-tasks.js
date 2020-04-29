@@ -6,7 +6,12 @@ exports.getTasks = async function getTasks(req, res, next) {
       $project: {
         list: "$shortList",
         title: 1,
-        url: 1
+        url: 1,
+        _id: 0
+      }
+    }, {
+      $project: {
+        "list._id": 0
       }
     }]);
     res.status(200).json({
@@ -24,7 +29,7 @@ exports.getOneTask = async function getOneTask(req, res, next) {
   try {
     const task = await Task
       .find({ url })
-      .select("-__v -shortList");
+      .select("-__v -shortList -_id -list._id");
     res.status(200).json({
       task: task[0]
     });

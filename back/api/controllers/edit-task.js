@@ -6,9 +6,7 @@ module.exports = async function editTask(req, res, next) {
     url
   } = req.body;
   try {
-    let task = await Task.find({
-      url
-    });
+    let task = await Task.find({ url });
     // eslint-disable-next-line prefer-destructuring
     task = task[0];
     task.list = list;

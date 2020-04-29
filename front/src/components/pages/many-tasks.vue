@@ -56,11 +56,11 @@ export default {
         .dispatch("deleteTask", url)
         .then(() => {
           eventBus.$emit("closeAlert");
-          this.$store.dispatch("getTasks").catch(error => {
+          this.$store.dispatch("getTasks").catch((error) => {
             console.log(error);
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -72,7 +72,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getTasks").catch(error => {
+    this.$store.dispatch("getTasks").catch((error) => {
       console.log(error);
     });
     eventBus.$on("deleteTask", (url) => {

@@ -15,7 +15,10 @@
           :reset="reset"
         >
           <template v-slot:removeTask>
-            <span class="material-icons remove" @click="removeTask(task.index)">remove_circle_outline</span>
+            <span
+              class="material-icons remove"
+              @click="removeTask(task.index)"
+            >remove_circle_outline</span>
           </template>
         </textareaUi>
         <div class="add-task-wrapper">
@@ -61,24 +64,24 @@ export default {
       this.$emit("modalClosed");
     },
     resetModal() {
-      let reset = this.reset;
+      const { reset } = this;
       Object.assign(this.$data, this.$options.data());
       this.reset = !reset;
     },
     saveTask() {
       const newTask = {
         title: this.taskTitle,
-        list: this.tasks.map(task => task.text)
+        list: this.tasks.map((task) => ({ title: task.text, done: false }))
       };
       this.$store
         .dispatch("saveTask", { task: newTask })
         .then(() => {
           this.closeModal();
-          this.$store.dispatch("getTasks").catch(error => {
+          this.$store.dispatch("getTasks").catch((error) => {
             console.log(error);
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -87,11 +90,11 @@ export default {
       this.tasks.push({ index: this.lastIndex, text: "" });
     },
     updateTextAreaInput(text, index) {
-      let task = this.tasks.find(task => task.index === index);
+      const task = this.tasks.find((taskEl) => taskEl.index === index);
       task.text = text;
     },
     removeTask(index) {
-      this.tasks = this.tasks.filter(task => task.index !== index);
+      this.tasks = this.tasks.filter((task) => task.index !== index);
     }
   },
   watch: {
