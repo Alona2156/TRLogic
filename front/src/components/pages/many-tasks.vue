@@ -76,6 +76,7 @@ export default {
       console.log(error);
     });
     eventBus.$on("deleteTask", (url) => {
+      console.log('delete task');
       this.deleteTask(url);
     });
   }

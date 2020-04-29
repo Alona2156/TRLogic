@@ -12,7 +12,7 @@ const tasksRouter = require("./api/routes/tasks");
 
 /* Connect to Mongo */
 
-const mongoConnection = process.env.mongoLocalUrl;
+const mongoConnection = process.env.mongoUrl;
 mongoose.connect(mongoConnection, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

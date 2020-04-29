@@ -166,6 +166,9 @@ export default {
     }
   },
   created() {
+    eventBus.$off("removeTask");
+    eventBus.$off("cancelEdit");
+    eventBus.$off("deleteAllTask");
     eventBus.$on("removeTask", (index) => {
       this.removeTask(index);
     });
