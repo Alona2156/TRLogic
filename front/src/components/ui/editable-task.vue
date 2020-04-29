@@ -1,6 +1,9 @@
 <template>
   <div class="editable-task-wrapper">
-    <p class="title">{{task.title}}</p>
+    <div class="header">
+      <p class="title">{{task.title}}</p>
+      <span class="material-icons close" @click="showAlertDeleteAllTask">highlight_off</span>
+    </div>
     <ul class="list">
       <li class="list-item" v-for="(item, index) in task.list" :key="index">
         <span class="material-icons edit" @click="openForEdit(index)">create</span>
@@ -84,7 +87,7 @@ export default {
     showRemoveAlert(index) {
       eventBus.$emit("toggleAlert", {
         data: index,
-        text: "Do you really want to delete task?",
+        text: "Do you really want to delete record?",
         type: "deleteRecord"
       });
     },
@@ -126,6 +129,31 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    showAlertDeleteAllTask() {
+      eventBus.$emit("toggleAlert", {
+        data: this.task.url,
+        text: "Do you really want to delete this task?",
+        type: "deleteAllTask"
+      });
+    },
+    deleteAllTask(url) {
+      this.$store
+        .dispatch("deleteTask", url)
+        .then(() => {
+          eventBus.$emit("closeAlert");
+          this.$store
+            .dispatch("getTasks")
+            .then(() => {
+              this.$router.push("/");
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   created() {
@@ -134,6 +162,9 @@ export default {
     });
     eventBus.$on("cancelEdit", index => {
       this.cancelEdit(index);
+    });
+    eventBus.$on("deleteAllTask", url => {
+      this.deleteAllTask(url);
     });
   }
 };
@@ -155,7 +186,7 @@ export default {
   border-radius: 8px;
   box-shadow: $card-shadow;
   padding: 20px 45px 20px 30px;
-  margin: 5px;
+  margin: auto;
   min-height: 160px;
   > .title {
     text-align: left;
@@ -219,6 +250,19 @@ export default {
   .save {
     left: 100%;
     color: $green;
+  }
+}
+
+.editable-task-wrapper .header {
+  @include flex(row, space-between, center);
+  position: relative;
+  > .close {
+    position: absolute;
+    font-size: 30px;
+    left: 100%;
+    top: -4px;
+    color: red;
+    cursor: pointer;
   }
 }
 

@@ -28,6 +28,8 @@ export default {
         eventBus.$emit("removeTask", this.data);
       } else if (this.alertType === "cancelEdit") {
         eventBus.$emit("cancelEdit", this.data);
+      } else if (this.alertType === "deleteAllTask") {
+        eventBus.$emit("deleteAllTask", this.data);
       }
     }
   }
