@@ -31,7 +31,7 @@ export default {
   box-shadow: $card-shadow;
   padding: 20px;
   margin: 5px;
-  min-height: 160px;
+  min-height: 176px;
   > .title {
     text-align: left;
     margin: 0 0 15px;

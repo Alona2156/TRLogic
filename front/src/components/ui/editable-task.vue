@@ -1,10 +1,20 @@
 <template>
-  <div class="task-wrapper">
+  <div class="editable-task-wrapper">
     <p class="title">{{task.title}}</p>
     <ul class="list">
       <li class="list-item" v-for="(item, index) in task.list" :key="index">
-        <p>{{item}}</p>
+        <span class="material-icons edit" @click="openForEdit(index)">create</span>
+        <input
+          :value="item"
+          :disabled="index !== itemIndexForEdit"
+          @input="item = $event.target.value"
+        />
         <checkboxUi :class="checkboxType" />
+        <span
+          class="material-icons saveEdit"
+          @click="saveEdit(index, item)"
+          v-if="index === itemIndexForEdit"
+        >check_circle_outline</span>
       </li>
     </ul>
     <textareaUi
@@ -22,6 +32,7 @@
       </template>
     </textareaUi>
     <div class="footer">
+      <div class="cancel" v-if="itemIndexForEdit !== ''" @click="cancelEdit">Cancel</div>
       <div class="add-task" @click="showTaskInput">&#x2b;</div>
     </div>
   </div>
@@ -37,7 +48,8 @@ export default {
     return {
       taskInput: false,
       reset: false,
-      newTaskText: ""
+      newTaskText: "",
+      itemIndexForEdit: ""
     };
   },
   components: {
@@ -52,22 +64,40 @@ export default {
       this.taskInput = false;
       this.reset = !this.reset;
     },
+    closeEditInput() {
+      this.itemIndexForEdit = "";
+    },
     updateTextAreaInput(text) {
       this.newTaskText = text;
+    },
+    openForEdit(index) {
+      this.itemIndexForEdit = index;
+    },
+    saveEdit(index, item) {
+      const taskList = this.task.list.slice();
+      taskList[index] = item;
+      this.save(taskList, this.closeEditInput);
+    },
+    cancelEdit() {
+      Object.assign(this.$data, this.$options.data());
     },
     saveNewTask() {
       const list = this.task.list.slice();
       list.push(this.newTaskText);
-      this.$store.dispatch("updateTask", {
-        url: this.task.url,
-        list
-      })
-      .then(() => {
-        this.closeTaskInput();
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+      this.save(list, this.closeTaskInput);
+    },
+    save(list, cb) {
+      this.$store
+        .dispatch("updateTask", {
+          url: this.task.url,
+          list
+        })
+        .then(() => {
+          cb && cb();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
@@ -76,8 +106,8 @@ export default {
 <style lang="scss">
 @import "@/style/mixins.scss";
 
-.task-wrapper {
-  width: 350px;
+.editable-task-wrapper {
+  width: 450px;
   border-radius: 8px;
   box-shadow: $card-shadow;
   padding: 20px 30px;
@@ -96,16 +126,43 @@ export default {
   .list-item {
     text-align: left;
     @include flex(row, space-between, center);
+    position: relative;
+    margin-bottom: 8px;
     > * {
       flex: 0 0 auto;
     }
     p {
       margin: 0;
     }
+    > input {
+      outline: none;
+      border: none;
+      -webkit-appearance: none;
+      border-bottom: 1px solid grey;
+      flex: 1 0 auto;
+      max-width: 80%;
+      &:disabled {
+        border-bottom: 1px solid transparent;
+      }
+    }
+    > .edit {
+      position: absolute;
+      left: -21px;
+      font-size: 18px;
+      color: $pink;
+      cursor: pointer;
+    }
+    > .saveEdit {
+      position: absolute;
+      font-size: 28px;
+      cursor: pointer;
+      color: $green;
+      left: calc(100% - 68px);
+    }
   }
 }
 
-.task-wrapper .new-task {
+.editable-task-wrapper .new-task {
   margin: 10px auto 0;
   max-width: 85%;
   position: relative;
@@ -113,26 +170,32 @@ export default {
   .save {
     font-size: 31px;
     cursor: pointer;
+    position: absolute;
+    top: calc(50% - 15px);
   }
   .remove {
-    position: absolute;
     left: -38px;
-    top: calc(50% - 15px);
     color: red;
   }
   .save {
-    position: absolute;
     left: 100%;
-    top: calc(50% - 15px);
     color: $green;
   }
 }
 
-.task-wrapper .footer {
+.editable-task-wrapper .footer {
   margin-top: 15px;
+  @include flex(row, space-between, center);
   .add-task {
     @extend %add-task-button;
     margin-left: auto;
+  }
+  .cancel {
+    border: 2px solid red;
+    color: red;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
   }
 }
 </style>
