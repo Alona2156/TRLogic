@@ -24,6 +24,10 @@ export default {
     executeCallback() {
       if (this.alertType === "deleteTask") {
         eventBus.$emit("deleteTask", this.data);
+      } else if (this.alertType === "deleteRecord") {
+        eventBus.$emit("removeTask", this.data);
+      } else if (this.alertType === "cancelEdit") {
+        eventBus.$emit("cancelEdit", this.data);
       }
     }
   }

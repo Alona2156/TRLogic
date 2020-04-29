@@ -25,12 +25,12 @@ export default {
     alert
   },
   created() {
-    eventBus.$on("toggleAlert", ({ data, text }) => {
+    eventBus.$on("toggleAlert", ({ data, text, type }) => {
       this.showAlert = true;
       this.shadeClass = "show";
       this.dataForCallback = data;
       this.alertText = text;
-      this.alertType = "deleteTask";
+      this.alertType = type;
     });
     eventBus.$on("closeAlert", () => {
       this.hideDeleteAlert();

@@ -45,18 +45,22 @@ export default {
       this.$router.push(url);
     },
     showDeleteAlert(url) {
-      eventBus.$emit("toggleAlert", { data: url, text: "Do you really want to delete task?" });
+      eventBus.$emit("toggleAlert", {
+        data: url,
+        text: "Do you really want to delete task?",
+        type: "deleteTask"
+      });
     },
     deleteTask(url) {
       this.$store
         .dispatch("deleteTask", url)
         .then(() => {
           eventBus.$emit("closeAlert");
-          this.$store.dispatch("getTasks").catch((error) => {
+          this.$store.dispatch("getTasks").catch(error => {
             console.log(error);
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
@@ -68,7 +72,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getTasks").catch((error) => {
+    this.$store.dispatch("getTasks").catch(error => {
       console.log(error);
     });
     eventBus.$on("deleteTask", (url) => {

@@ -18,7 +18,7 @@
         <span
           class="material-icons removeTask"
           v-if="index === itemIndexForEdit"
-          @click="removeTask(index)"
+          @click="showRemoveAlert(index)"
         >remove_circle_outline</span>
       </li>
     </ul>
@@ -37,7 +37,7 @@
       </template>
     </textareaUi>
     <div class="footer">
-      <div class="cancel" v-if="itemIndexForEdit !== ''" @click="cancelEdit">Cancel</div>
+      <div class="cancel" v-if="itemIndexForEdit !== ''" @click="showCancelAlert">Cancel</div>
       <div class="add-task" @click="showTaskInput">&#x2b;</div>
     </div>
   </div>
@@ -73,6 +73,7 @@ export default {
     },
     closeEditInput() {
       this.itemIndexForEdit = "";
+      eventBus.$emit("closeAlert");
     },
     updateTextAreaInput(text) {
       this.newTaskText = text;
@@ -80,9 +81,14 @@ export default {
     openForEdit(index) {
       this.itemIndexForEdit = index;
     },
+    showRemoveAlert(index) {
+      eventBus.$emit("toggleAlert", {
+        data: index,
+        text: "Do you really want to delete task?",
+        type: "deleteRecord"
+      });
+    },
     removeTask(index) {
-      eventBus.$emit("toggleAlert", { url: "test", text: "Do you really want to delete task?" });
-      return;
       const taskList = this.task.list.filter((item, itemIndex) => {
         return itemIndex !== index;
       });
@@ -93,8 +99,15 @@ export default {
       taskList[index] = item;
       this.save(taskList, this.closeEditInput);
     },
+    showCancelAlert() {
+      eventBus.$emit("toggleAlert", {
+        text: "Do you really want to delete edited data?",
+        type: "cancelEdit"
+      });
+    },
     cancelEdit() {
       Object.assign(this.$data, this.$options.data());
+      eventBus.$emit("closeAlert");
     },
     saveNewTask() {
       const list = this.task.list.slice();
@@ -114,6 +127,14 @@ export default {
           console.log(error);
         });
     }
+  },
+  created() {
+    eventBus.$on("removeTask", index => {
+      this.removeTask(index);
+    });
+    eventBus.$on("cancelEdit", index => {
+      this.cancelEdit(index);
+    });
   }
 };
 </script>
